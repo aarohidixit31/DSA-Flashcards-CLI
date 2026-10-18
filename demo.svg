@@ -5,7 +5,7 @@
   <circle cx="22" cy="17" r="6" fill="#ff5f56"/>
   <circle cx="42" cy="17" r="6" fill="#ffbd2e"/>
   <circle cx="62" cy="17" r="6" fill="#27c93f"/>
-  <text x="450" y="21" fill="#9a9a9a" text-anchor="middle" font-size="12.5">flashcards.py — review &amp; stats</text>
+  <text x="450" y="21" fill="#9a9a9a" text-anchor="middle" font-size="12.5">flashcards.py: review &amp; stats</text>
 
   <g fill="#f1f1f1" xml:space="preserve">
     <text x="20" y="62" fill="#50fa7b">$ python flashcards.py review --topic trees</text>
