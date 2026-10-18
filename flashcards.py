@@ -277,6 +277,8 @@ def main():
             stats(conn)
         elif args.command == "list":
             list_cards(conn, args.topic)
+    except (KeyboardInterrupt, EOFError):
+        print("\nStopped. Progress on any answered cards was already saved.")
     finally:
         conn.close()
 
