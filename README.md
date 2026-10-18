@@ -62,6 +62,29 @@ python flashcards.py list
 python flashcards.py list --topic strings
 ```
 
+Edit a card (use the id shown by `list`; only the fields you pass are changed):
+
+```
+python flashcards.py edit 3 --answer "Updated answer text"
+```
+
+Delete a card (asks for confirmation; pass `--yes` to skip it):
+
+```
+python flashcards.py delete 3
+python flashcards.py delete 3 --yes
+```
+
+## Running the tests
+
+`test_flashcards.py` covers the Leitner scheduling math (box transitions,
+interval calculation) and the edit/delete/import logic against a throwaway
+in-memory database — it never touches your real `flashcards.db`:
+
+```
+python -m unittest test_flashcards -v
+```
+
 ## Example session
 
 ```
