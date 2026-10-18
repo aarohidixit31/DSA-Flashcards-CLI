@@ -1,0 +1,51 @@
+topic,question,answer
+arrays,What is the time complexity of accessing an element by index in an array?,O(1) because arrays use contiguous memory and direct offset calculation
+arrays,What is the time complexity of inserting an element at the beginning of an array?,"O(n), because every existing element must shift to make room"
+arrays,How do you reverse an array in-place using two pointers?,Swap elements at the left and right pointers and move them toward the center until they meet
+arrays,What is the two-pointer technique used for?,Solving problems like pair sums or partitioning by moving two indices toward or away from each other instead of nested loops
+arrays,What is a sliding window and when is it useful?,A technique that maintains a subarray range by expanding/shrinking its bounds, useful for subarray sum or substring problems in O(n)
+arrays,What is the time complexity of binary search on a sorted array?,O(log n) because the search space is halved each step
+strings,What is the time complexity of checking if two strings are anagrams using sorting?,O(n log n) due to the sort; O(n) is possible using character frequency counts
+strings,How do you check if a string is a palindrome in O(n) time?,Compare characters from both ends moving inward with two pointers until they meet
+strings,What data structure is commonly used to detect the first non-repeating character in a string?,A hash map (or fixed-size array) storing character frequency counts
+strings,What is the time complexity of string concatenation in a loop using the + operator in most languages?,O(n^2) in the worst case because each concatenation can create a new string
+strings,What is the sliding window technique used for in string problems?,Finding the longest/shortest substring satisfying a condition, like no repeating characters, in O(n)
+trees,What is the time complexity of searching in a balanced binary search tree?,O(log n) because the height of a balanced BST is log n
+trees,What is the difference between BFS and DFS traversal of a tree?,BFS visits level by level using a queue; DFS goes deep along a branch first using recursion or a stack
+trees,What is the time complexity of inserting a node into an unbalanced BST in the worst case?,"O(n), because the tree can degenerate into a linked list"
+trees,How do you find the height of a binary tree?,"Recursively compute 1 + max(height(left), height(right)), with a leaf or null node having height 0"
+trees,What is a balanced binary tree?,"A tree where the height difference between left and right subtrees of every node is at most 1 (e.g., AVL, Red-Black trees)"
+trees,What is the time complexity of in-order traversal of a binary tree?,O(n) because every node is visited exactly once
+linked-lists,What is the time complexity of inserting at the head of a singly linked list?,O(1) because you only need to update the head pointer and the new node's next pointer
+linked-lists,What is the time complexity of accessing the nth element in a linked list?,O(n) because there is no random access; you must traverse node by node
+linked-lists,How do you detect a cycle in a linked list?,"Use Floyd's cycle detection (two pointers, slow and fast); if fast catches up to slow, a cycle exists"
+linked-lists,How do you reverse a singly linked list iteratively?,"Walk through the list keeping prev, curr, and next pointers, reversing each node's next pointer to point backward"
+linked-lists,What is the difference between a singly linked list and a doubly linked list?,"A doubly linked list has pointers to both the next and previous nodes, allowing traversal in both directions at the cost of extra memory per node"
+stacks,What is the time complexity of push and pop operations on a stack?,O(1) because both operate only on the top of the stack
+stacks,What is a classic use case for a stack?,"Matching parentheses/balanced brackets, and tracking function calls (call stack) for recursion"
+stacks,How would you evaluate a postfix expression using a stack?,"Push operands; when an operator appears, pop the required number of operands, apply the operator, and push the result back"
+stacks,How can you implement a stack using two queues?,"Push by enqueuing to one queue; for pop, dequeue all but the last element into the second queue, return the last, then swap the queues' roles"
+queues,What is the time complexity of enqueue and dequeue in a queue implemented with a circular buffer?,O(1) because both operations use index pointers without shifting elements
+queues,What is the difference between a queue and a stack?,"A queue is FIFO (first in, first out); a stack is LIFO (last in, first out)"
+queues,What is a deque and how is it different from a regular queue?,"A double-ended queue allows insertion and removal from both the front and back, unlike a regular queue which is restricted to one end each"
+queues,How is a queue used in BFS traversal?,"It holds nodes to visit next; nodes are enqueued when discovered and dequeued in the order they were found, ensuring level-by-level traversal"
+graphs,What is the time complexity of BFS/DFS on a graph with V vertices and E edges?,O(V + E) because every vertex and edge is visited once using an adjacency list
+graphs,What is the difference between an adjacency list and an adjacency matrix?,An adjacency list stores only existing edges (space-efficient for sparse graphs); an adjacency matrix uses O(V^2) space but gives O(1) edge lookups
+graphs,How do you detect a cycle in an undirected graph?,"Use DFS or BFS and track visited nodes; if you reach an already-visited node that isn't the immediate parent, there is a cycle"
+graphs,What algorithm finds the shortest path in a weighted graph with no negative edges?,"Dijkstra's algorithm, using a priority queue to always expand the closest unvisited vertex"
+graphs,What is topological sorting and when is it used?,An ordering of nodes in a directed acyclic graph such that every edge points from an earlier node to a later one; used for task scheduling and dependency resolution
+sorting,What is the average time complexity of quicksort?,"O(n log n) on average, though O(n^2) in the worst case with poor pivot choices"
+sorting,What is the time complexity of merge sort and why is it stable?,O(n log n) in all cases; it's stable because merging preserves the relative order of equal elements
+sorting,What is the difference between a stable and an unstable sort?,A stable sort preserves the relative order of elements with equal keys; an unstable sort does not guarantee this
+sorting,What is the time complexity of counting sort and when is it useful?,O(n + k) where k is the range of input values; useful when the range of values is small relative to n
+recursion,What are the two essential parts of any recursive function?,"A base case that stops the recursion, and a recursive case that reduces the problem toward the base case"
+recursion,What is the time complexity of naive recursive Fibonacci where fib(n) = fib(n-1) + fib(n-2)?,O(2^n) because it recomputes the same subproblems exponentially many times
+recursion,What is tail recursion?,"A recursive call that is the last operation in a function, allowing some compilers/interpreters to optimize it into a loop without growing the call stack"
+recursion,How does recursion relate to the call stack and stack overflow?,Each recursive call adds a new frame to the call stack; too many nested calls without hitting a base case exhausts the stack and causes a stack overflow
+dynamic-programming,What problem property makes dynamic programming applicable?,"Overlapping subproblems and optimal substructure, where the solution can be built from solutions to smaller subproblems"
+dynamic-programming,What is the difference between memoization and tabulation?,"Memoization is top-down recursion with cached results; tabulation is bottom-up, filling a table iteratively from the base cases up"
+dynamic-programming,What is the time complexity of the 0/1 knapsack DP solution with n items and capacity W?,O(n * W) using a 2D (or optimized 1D) table
+dynamic-programming,How do you find the length of the longest common subsequence of two strings using DP?,"Build a table where dp[i][j] is the LCS length of the first i and j characters; it equals dp[i-1][j-1]+1 if characters match, else max(dp[i-1][j], dp[i][j-1])"
+hashing,"What is the average time complexity of lookup, insert, and delete in a hash map?","O(1) average case, assuming a good hash function and low collision rate"
+hashing,How do hash maps handle collisions?,Common strategies are chaining (storing multiple entries in a linked list/bucket) and open addressing (probing for the next free slot)
+hashing,What problem does a hash set solve efficiently that an array search cannot?,Checking membership (does X exist in this collection?) in O(1) average time instead of O(n) linear scan
