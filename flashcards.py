@@ -127,6 +127,7 @@ def import_cards(conn, csv_path):
     print(f"Imported {count} cards from {csv_path}.")
     if skipped:
         print(f"Skipped {skipped} invalid row(s).")
+    return count, skipped
 
 
 def due_cards(conn, topic=None):

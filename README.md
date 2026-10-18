@@ -93,12 +93,15 @@ reading first if you're curious how the rest of the app fits together.
 ## Project structure
 
 ```
-flashcards.py         the CLI: argument parsing, SQLite storage, review loop
-test_flashcards.py    unit tests for the scheduling math and edit/delete/import logic
-cards.csv             50 starter DSA questions across 11 topics
-flashcards.db         created automatically on first run (not committed — see .gitignore)
-.gitignore            ignores flashcards.db and Python cache files
-LICENSE               MIT
+flashcards.py                      the CLI: argument parsing, SQLite storage, review loop
+test_flashcards.py                 unit tests for the scheduling math and edit/delete/import logic
+validate_cards.py                  validates cards.csv (structure + duplicate questions) before a PR is merged
+cards.csv                          50 starter DSA questions across 11 topics
+flashcards.db                      created automatically on first run (not committed — see .gitignore)
+.github/workflows/validate.yml     CI: runs the tests and validate_cards.py on every PR
+.gitignore                         ignores flashcards.db and Python cache files
+LICENSE                            MIT
+CONTRIBUTING.md                    how to submit new questions via PR
 ```
 
 ## Importing your own cards
@@ -120,14 +123,23 @@ Note: `import` always appends and does not check for duplicates. Re-running
 copies — only re-import after deleting `flashcards.db`, or when adding
 genuinely new rows.
 
+## Contributing questions
+
+Pull requests adding new DSA questions to `cards.csv` are welcome — see
+[CONTRIBUTING.md](CONTRIBUTING.md) for the format and how to validate your
+additions locally before opening a PR. Every PR is automatically checked by
+a GitHub Action (`validate_cards.py` + the test suite) for structural
+issues and duplicate questions before it's reviewed for content.
+
 ## Running the tests
 
 `test_flashcards.py` covers the Leitner scheduling math (box transitions,
 interval calculation) and the edit/delete/import logic, all against a
-throwaway in-memory database — it never touches your real `flashcards.db`:
+throwaway in-memory database — it never touches your real `flashcards.db`.
+`test_validate_cards.py` covers the duplicate-question check. Run both with:
 
 ```bash
-python -m unittest test_flashcards -v
+python -m unittest discover -v
 ```
 
 ## License

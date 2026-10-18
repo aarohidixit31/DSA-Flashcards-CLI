@@ -97,8 +97,10 @@ class DatabaseBackedTests(unittest.TestCase):
                 writer.writerow(["arrays", "Q1", "A1"])
                 writer.writerow(["trees", "Q2", "A2"])
 
-            flashcards.import_cards(self.conn, str(csv_path))
+            imported, skipped = flashcards.import_cards(self.conn, str(csv_path))
 
+            self.assertEqual(imported, 2)
+            self.assertEqual(skipped, 0)
             count = self.conn.execute("SELECT COUNT(*) FROM cards").fetchone()[0]
             self.assertEqual(count, 2)
 
@@ -111,8 +113,10 @@ class DatabaseBackedTests(unittest.TestCase):
                 writer.writerow(["arrays", "Q1", "A1"])
                 writer.writerow(["arrays", "", "A2"])  # missing question
 
-            flashcards.import_cards(self.conn, str(csv_path))
+            imported, skipped = flashcards.import_cards(self.conn, str(csv_path))
 
+            self.assertEqual(imported, 1)
+            self.assertEqual(skipped, 1)
             count = self.conn.execute("SELECT COUNT(*) FROM cards").fetchone()[0]
             self.assertEqual(count, 1)
 
