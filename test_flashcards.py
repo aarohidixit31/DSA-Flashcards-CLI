@@ -97,12 +97,46 @@ class DatabaseBackedTests(unittest.TestCase):
                 writer.writerow(["arrays", "Q1", "A1"])
                 writer.writerow(["trees", "Q2", "A2"])
 
-            imported, skipped = flashcards.import_cards(self.conn, str(csv_path))
+            imported, skipped, duplicates = flashcards.import_cards(self.conn, str(csv_path))
 
             self.assertEqual(imported, 2)
             self.assertEqual(skipped, 0)
+            self.assertEqual(duplicates, 0)
             count = self.conn.execute("SELECT COUNT(*) FROM cards").fetchone()[0]
             self.assertEqual(count, 2)
+
+    def test_import_skips_questions_already_in_the_database(self):
+        flashcards.add_card(self.conn, "arrays", "  What IS Big-O of BFS?  ", "O(V + E)")
+
+        with tempfile.TemporaryDirectory() as tmp:
+            csv_path = Path(tmp) / "cards.csv"
+            with csv_path.open("w", newline="", encoding="utf-8") as f:
+                writer = csv.writer(f)
+                writer.writerow(["topic", "question", "answer"])
+                writer.writerow(["graphs", "what is big-o of bfs?", "duplicate, should be skipped"])
+                writer.writerow(["graphs", "What is DFS used for?", "Exploring as deep as possible first"])
+
+            imported, skipped, duplicates = flashcards.import_cards(self.conn, str(csv_path))
+
+            self.assertEqual(imported, 1)
+            self.assertEqual(skipped, 0)
+            self.assertEqual(duplicates, 1)
+            count = self.conn.execute("SELECT COUNT(*) FROM cards").fetchone()[0]
+            self.assertEqual(count, 2)  # the original card + the one new question
+
+    def test_import_skips_duplicate_questions_within_the_same_csv(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            csv_path = Path(tmp) / "cards.csv"
+            with csv_path.open("w", newline="", encoding="utf-8") as f:
+                writer = csv.writer(f)
+                writer.writerow(["topic", "question", "answer"])
+                writer.writerow(["arrays", "What is Big-O of binary search?", "O(log n)"])
+                writer.writerow(["arrays", "what is big-o of binary search?", "O(log n) again"])
+
+            imported, skipped, duplicates = flashcards.import_cards(self.conn, str(csv_path))
+
+            self.assertEqual(imported, 1)
+            self.assertEqual(duplicates, 1)
 
     def test_import_skips_rows_with_missing_fields(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -113,10 +147,11 @@ class DatabaseBackedTests(unittest.TestCase):
                 writer.writerow(["arrays", "Q1", "A1"])
                 writer.writerow(["arrays", "", "A2"])  # missing question
 
-            imported, skipped = flashcards.import_cards(self.conn, str(csv_path))
+            imported, skipped, duplicates = flashcards.import_cards(self.conn, str(csv_path))
 
             self.assertEqual(imported, 1)
             self.assertEqual(skipped, 1)
+            self.assertEqual(duplicates, 0)
             count = self.conn.execute("SELECT COUNT(*) FROM cards").fetchone()[0]
             self.assertEqual(count, 1)
 

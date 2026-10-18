@@ -5,15 +5,7 @@ spaced repetition**: cards you get right are shown less often, cards you miss
 come back the next day. No installs, no server, no account — just Python's
 standard library and a local SQLite file.
 
-```
-$ python flashcards.py review --topic trees
-[trees] (box 1)
-Q: What is the time complexity of searching in a balanced binary search tree?
-Press Enter to reveal the answer...
-A: O(log n) because the height of a balanced BST is log n
-Got it? (y/n): y
-Moved to box 2, next review on 2026-10-21.
-```
+![Terminal demo: reviewing trees cards and checking stats](demo.svg)
 
 ## Why this exists
 
@@ -118,10 +110,12 @@ If a question or answer contains a comma, wrap that field in double quotes
 columns — `import` will tell you exactly which row it skipped and why if a
 row is malformed.
 
-Note: `import` always appends and does not check for duplicates. Re-running
-`import cards.csv` on a database that already has those cards will create
-copies — only re-import after deleting `flashcards.db`, or when adding
-genuinely new rows.
+`import` checks each question against what's already in your database
+(ignoring case and extra whitespace) and skips anything that's already
+there, so re-running `import cards.csv` after merging new contributions is
+safe — it won't duplicate the cards you already have. It only catches
+exact-ish matches, though: rewording a question enough will still get it
+imported as a new card.
 
 ## Contributing questions
 

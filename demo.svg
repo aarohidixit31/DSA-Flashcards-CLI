@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="900" height="560" font-family="SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="13.5">
+  <rect x="0" y="0" width="900" height="560" rx="10" fill="#1e1e1e"/>
+  <rect x="0" y="0" width="900" height="34" rx="10" fill="#2d2d2d"/>
+  <rect x="0" y="10" width="900" height="24" fill="#2d2d2d"/>
+  <circle cx="22" cy="17" r="6" fill="#ff5f56"/>
+  <circle cx="42" cy="17" r="6" fill="#ffbd2e"/>
+  <circle cx="62" cy="17" r="6" fill="#27c93f"/>
+  <text x="450" y="21" fill="#9a9a9a" text-anchor="middle" font-size="12.5">flashcards.py — review &amp; stats</text>
+
+  <g fill="#f1f1f1" xml:space="preserve">
+    <text x="20" y="62" fill="#50fa7b">$ python flashcards.py review --topic trees</text>
+    <text x="20" y="84" fill="#7f848e">[trees] (box 1)</text>
+    <text x="20" y="106" fill="#8be9fd">Q: What is the time complexity of searching in a balanced binary search tree?</text>
+    <text x="20" y="128" fill="#9a9a9a">Press Enter to reveal the answer...</text>
+    <text x="20" y="150">A: O(log n) because the height of a balanced BST is log n</text>
+    <text x="20" y="172"><tspan fill="#9a9a9a">Got it? (y/n): </tspan><tspan fill="#f1fa8c">y</tspan></text>
+    <text x="20" y="194" fill="#50fa7b">Moved to box 2, next review on 2026-10-21.</text>
+
+    <text x="20" y="232" fill="#7f848e">[trees] (box 1)</text>
+    <text x="20" y="254" fill="#8be9fd">Q: What is the difference between BFS and DFS traversal of a tree?</text>
+    <text x="20" y="276" fill="#9a9a9a">Press Enter to reveal the answer...</text>
+    <text x="20" y="298">A: BFS visits level by level using a queue; DFS goes deep along a</text>
+    <text x="20" y="316">branch first using recursion or a stack</text>
+    <text x="20" y="338"><tspan fill="#9a9a9a">Got it? (y/n): </tspan><tspan fill="#f1fa8c">y</tspan></text>
+    <text x="20" y="360" fill="#50fa7b">Moved to box 2, next review on 2026-10-21.</text>
+
+    <text x="20" y="398" fill="#f1fa8c">Session complete: 2/2 correct, 0/2 wrong.</text>
+
+    <text x="20" y="432" fill="#50fa7b">$ python flashcards.py stats</text>
+    <text x="20" y="454">Total cards: 50</text>
+    <text x="20" y="476">Due today: 48</text>
+    <text x="20" y="498">Cards per box:</text>
+    <text x="20" y="520">  Box 1 (every 1d): 48    Box 2 (every 2d): 2    Box 3 (every 4d): 0</text>
+    <text x="20" y="542">  Box 4 (every 8d): 0    Box 5 (every 16d): 0</text>
+  </g>
+</svg>

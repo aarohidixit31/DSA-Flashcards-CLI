@@ -14,17 +14,13 @@ Also run automatically on every pull request by
 
 import argparse
 import csv
-import re
 import sys
 from collections import defaultdict
 from pathlib import Path
 
 import flashcards
 
-
-def normalize(text):
-    """Lowercase and collapse whitespace so near-identical questions compare equal."""
-    return re.sub(r"\s+", " ", text.strip().lower())
+normalize = flashcards.normalize_question
 
 
 def find_duplicate_questions(csv_path):
@@ -45,7 +41,7 @@ def main():
     args = parser.parse_args()
 
     conn = flashcards.get_connection(":memory:")
-    imported, skipped = flashcards.import_cards(conn, args.csv_path)
+    imported, skipped, _in_batch_duplicates = flashcards.import_cards(conn, args.csv_path)
     conn.close()
 
     duplicates = find_duplicate_questions(args.csv_path)

@@ -3,6 +3,7 @@
 
 import argparse
 import csv
+import re
 import sqlite3
 import sys
 from datetime import date, timedelta
@@ -35,6 +36,11 @@ def get_connection(db_path=DB_PATH):
 
 def today_str():
     return date.today().isoformat()
+
+
+def normalize_question(text):
+    """Lowercase and collapse whitespace so near-identical questions compare equal."""
+    return re.sub(r"\s+", " ", text.strip().lower())
 
 
 def add_card(conn, topic, question, answer):
@@ -96,6 +102,10 @@ def import_cards(conn, csv_path):
         print(f"File not found: {csv_path}")
         sys.exit(1)
 
+    existing_questions = {
+        normalize_question(question) for (question,) in conn.execute("SELECT question FROM cards")
+    }
+
     with path.open(newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         fieldnames = set(reader.fieldnames or [])
@@ -109,6 +119,7 @@ def import_cards(conn, csv_path):
 
         count = 0
         skipped = 0
+        duplicates = 0
         for line_num, row in enumerate(reader, start=2):
             topic = (row.get("topic") or "").strip()
             question = (row.get("question") or "").strip()
@@ -117,17 +128,27 @@ def import_cards(conn, csv_path):
                 print(f"Skipping row {line_num}: missing topic, question, or answer.")
                 skipped += 1
                 continue
+
+            normalized = normalize_question(question)
+            if normalized in existing_questions:
+                print(f"Skipping row {line_num}: duplicate question already in the deck.")
+                duplicates += 1
+                continue
+
             conn.execute(
                 "INSERT INTO cards (topic, question, answer, box, next_review) VALUES (?, ?, ?, 1, ?)",
                 (topic, question, answer, today_str()),
             )
+            existing_questions.add(normalized)
             count += 1
 
     conn.commit()
     print(f"Imported {count} cards from {csv_path}.")
     if skipped:
         print(f"Skipped {skipped} invalid row(s).")
-    return count, skipped
+    if duplicates:
+        print(f"Skipped {duplicates} duplicate row(s) already in the deck.")
+    return count, skipped, duplicates
 
 
 def due_cards(conn, topic=None):
